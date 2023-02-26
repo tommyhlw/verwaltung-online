@@ -2,9 +2,9 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
-from verwaltung_online import app, db, bcrypt
-from verwaltung_online.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, AddEinheit, AddGemeinschaft, AddKostenart, AddStockwerk, AddUmlageschluessel, AddVermietung, AddWohnung, AddZaehler, AddZaehlertyp
-from verwaltung_online.models import User, Post, Einheiten, Gemeinschaft, Kostenarten, Stockwerke, Umlageschluessel, Vermietung, Wohnungen, Zaehler, Zaehlertypen
+from verwaltungonline import app, db, bcrypt
+from verwaltungonline.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, AddEinheit, AddGemeinschaft, AddKostenart, AddStockwerk, AddUmlageschluessel, AddVermietung, AddWohnung, AddZaehler, AddZaehlertyp
+from verwaltungonline.models import User, Post, Einheiten, Gemeinschaft, Kostenarten, Stockwerke, Umlageschluessel, Vermietung, Wohnungen, Zaehler, Zaehlertypen
 from flask_login import login_user, current_user, logout_user, login_required
 
 
