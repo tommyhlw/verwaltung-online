@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="container mr-auto">
+    <div class="content-section mr-auto">
+      <h2>Übersicht {{ title }}</h2>
+      <table class="table table-light table-striped">
+          <thead >
+          <tr>
+              <th scope="col">WEID</th>
+              <th scope="col">Wohnung</th>
+              <th scope="col">Vorname</th>
+              <th scope="col">Nachname</th>
+              <th scope="col">Straße</th>
+              <th scope="col">Hausnummer</th>
+              <th scope="col">Postleitzahl</th>
+              <th scope="col">Ort</th>
+              <th scope="col">Mietbeginn</th>
+              <th scope="col">Mietende</th>
+              <th scope="col">Personen</th>
+          </tr>
+          </thead>
+          {% for data in bezeichnungen %}
+              <tbody>
+                  <tr>
+                      <td>{{ data.weid }}</td>
+                      <td>{{ data.wohnung }}</td>
+                      <td>{{ data.vorname }}</td>
+                      <td>{{ data.nachname }}</td>
+                      <td>{{ data.strasse }}</td>
+                      <td>{{ data.hausnummer }}</td>
+                      <td>{{ data.plz }}</td>
+                      <td>{{ data.ort }}</td>
+                      <td>{{ data.mietbeginn }}</td>
+                      <td>{{ data.mietende }}</td>
+                      <td>{{ data.personen }}</td>
+                  </tr>
+              </tbody>
+          {% endfor %}
+      </table>
+    </div>
+  </div>
+{% endblock content %}
+{% block Menue %}
+    <div class="content-section">
+        <p>Aktionen
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}" class="btn btn-outline-info" role="button">Hinzufügen</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}" class="btn btn-outline-info" role="button">Bearbeiten</a></li>
+        </ul>
+        </p>
+    </div>
+{% endblock Menue %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ verwaltung.weid }}</a>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('verwaltung') }}">{{ verwaltung.einheiten }}</a></h2>
+            <p class="article-content">{{ verwaltung.wohnung }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
+{% block Menue %}
+        <h3>Stammdaten</h3>
+        <p class='text-muted '>Bitte wählen
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('einheiten') }}">Einheiten</a> <a href="{{ url_for('add_einheit') }}"> | (Bearbeiten)</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('gemeinschaft') }}">Gemeinschaftsflächen</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}">Kostenarten</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}">Stockwerke</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}">Umlageschlüssel</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}">Wohnungen</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}">Zähler</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_vermietung') }}">Zählertypen</a></li>
+        </ul>
+        </p>
+{% endblock Menue %}
+
+

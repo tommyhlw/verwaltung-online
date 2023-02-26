@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Bezeichnung</th>
+        </tr>
+        </thead>
+        {% for data in bezeichnungen %}
+            <tbody>
+                <tr>
+                    <td>{{ data.bezeichnung }}</td>
+                </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock content %}
+{% block Menue %}
+        <h3>Einheiten</h3>
+        <p class='text-muted '>Bitte wählen
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('add_einheit') }}">Bearbeiten</a></li></li>
+        </ul>
+        </p>
+{% endblock Menue %}
+
+
