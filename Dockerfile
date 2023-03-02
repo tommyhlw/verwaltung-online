@@ -5,6 +5,8 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN apk add python3
 RUN apk add py3-pip
+RUN apk add openssl
+RUN apk add py3-cryptography
 
 RUN pip install --no-cache-dir -r requirements.txt
 

@@ -6,6 +6,8 @@ from verwaltungonline import app, db, bcrypt
 from verwaltungonline.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, AddEinheit, AddGemeinschaft, AddKostenart, AddStockwerk, AddUmlageschluessel, AddVermietung, AddWohnung, AddZaehler, AddZaehlertyp
 from verwaltungonline.models import User, Post, Einheiten, Gemeinschaft, Kostenarten, Stockwerke, Umlageschluessel, Vermietung, Wohnungen, Zaehler, Zaehlertypen
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_oauthlib.client import OAuth2Client
+from flask_oauthlib.provider import OAuth2Provider
 
 
 @app.route("/")
@@ -14,22 +16,34 @@ def home():
     posts = Post.query.all()
     return render_template('home.html', posts=posts)
 
+@oauth_provider.route('/login')
+@oauth_provider.require_oauth('openid')
+def login():
+    return oauth_provider.authorize_redirect('https://login.wp472.de/auth/realms/your-realm-name/protocol/openid-connect/auth')
+
+
+@oauth_provider.route('/oauth2/callback')
+@oauth_provider.authorized_handler
+def callback(resp):
+    access_token = resp['access_token']
+    # Use the access token to make requests to Keycloak API or protected resources
+    return 'Authenticated successfully!'
 
 @app.route("/ablesung")
-@login_required
+@oauth_provider.require_oauth('openid')
 def ablesung():
     bezeichnungen =Einheiten.query.all()
     return render_template('ablesung.html', title='Ablesung', bezeichnungen=bezeichnungen)
 
 
 @app.route("/einheiten")
-@login_required
+@oauth_provider.require_oauth('openid')
 def einheiten():
     bezeichnungen =Einheiten.query.all()
     return render_template('einheiten.html', title='Einheiten', bezeichnungen=bezeichnungen)
 
 @app.route("/einheiten/add_einheit", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_einheit():
     form = AddEinheit()
     if form.validate_on_submit():
@@ -42,13 +56,13 @@ def add_einheit():
 
 
 @app.route("/gemeinschaft")
-@login_required
+@oauth_provider.require_oauth('openid')
 def gemeinschaft():
     bezeichnungen =Gemeinschaft.query.all()
     return render_template('gemeinschaft.html', title='Gemeinschaftsflächen', bezeichnungen=bezeichnungen)
 
 @app.route("/gemeinschaft/add_gemeinschaft", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_gemeinschaft():
     form = AddGemeinschaft()
     if form.validate_on_submit():
@@ -61,13 +75,13 @@ def add_gemeinschaft():
 
 
 @app.route("/kostenarten")
-@login_required
+@oauth_provider.require_oauth('openid')
 def kostenarten():
     bezeichnungen =Kostenarten.query.all()
     return render_template('gemeinschaft.html', title='Kostenarten', bezeichnungen=bezeichnungen)
 
 @app.route("/kostenarten/add_kostenart", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_kostenart():
     form = AddKostenart()
     if form.validate_on_submit():
@@ -80,13 +94,13 @@ def add_kostenart():
 
 
 @app.route("/stockwerke")
-@login_required
+@oauth_provider.require_oauth('openid')
 def stockwerke():
     bezeichnungen =Stockwerke.query.all()
     return render_template('stockwerke.html', title='Stockwerke', bezeichnungen=bezeichnungen)
 
 @app.route("/stockwerke/add_stockwerk", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_stockwerk():
     form = AddStockwerk()
     if form.validate_on_submit():
@@ -99,13 +113,13 @@ def add_stockwerk():
 
 
 @app.route("/umlageschluessel")
-@login_required
+@oauth_provider.require_oauth('openid')
 def umlageschluessel():
     bezeichnungen =Umlageschluessel.query.all()
     return render_template('umlageschluessel.html', title='Umlageschlüssel', bezeichnungen=bezeichnungen)
 
 @app.route("/umlageschluessel/add_umlageschluessel", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_umlageschluessel():
     form = AddUmlageschluessel()
     if form.validate_on_submit():
@@ -118,13 +132,13 @@ def add_umlageschluessel():
 
 
 @app.route("/vermietung")
-@login_required
+@oauth_provider.require_oauth('openid')
 def vermietung():
     bezeichnungen = Vermietung.query.all()
     return render_template('vermietung.html', title='Mieter*innen', bezeichnungen=bezeichnungen)
 
 @app.route("/vermietung/add_vermietung", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_vermietung():
     form = AddVermietung()
     if form.validate_on_submit():
@@ -140,13 +154,13 @@ def add_vermietung():
 
 
 @app.route("/wohnungen")
-@login_required
+@oauth_provider.require_oauth('openid')
 def wohnungen():
     bezeichnungen =Wohnungen.query.all()
     return render_template('wohnungen.html', title='Wohnungen', bezeichnungen=bezeichnungen)
 
 @app.route("/wohnungen/add_wohnung", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_wohnung():
     form = AddWohnung()
     if form.validate_on_submit():
@@ -159,13 +173,13 @@ def add_wohnung():
 
 
 @app.route("/zaehler")
-@login_required
+@oauth_provider.require_oauth('openid')
 def zaehler():
     bezeichnungen =Zaehler.query.all()
     return render_template('zaehler.html', title='Zähler', bezeichnungen=bezeichnungen)
 
 @app.route("/stockwerke/add_zaehler", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_zaehler():
     form = AddZaehler()
     if form.validate_on_submit():
@@ -178,13 +192,13 @@ def add_zaehler():
 
 
 @app.route("/zaehlertypen")
-@login_required
+@oauth_provider.require_oauth('openid')
 def zaehlertypen():
     bezeichnungen =Zaehlertypen.query.all()
     return render_template('zaehlertypen.html', title='Zählertypen', bezeichnungen=bezeichnungen)
 
 @app.route("/zaehlertypen/add_zaehlertyp", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def add_zaehlertyp():
     form = AddZaehlertyp()
     if form.validate_on_submit():
@@ -239,50 +253,12 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-
-@app.route("/logout")
+@app.route('/logout')
 def logout():
-    logout_user()
-    return redirect(url_for('home'))
-
-
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-
-    output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-
-    return picture_fn
-
-
-@app.route("/account", methods=['GET', 'POST'])
-@login_required
-def account():
-    form = UpdateAccountForm()
-    if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            current_user.image_file = picture_file
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        db.session.commit()
-        flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account',
-                           image_file=image_file, form=form)
-
+    return oauth_provider.unauthorized_response()
 
 @app.route("/post/new", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
@@ -302,7 +278,7 @@ def post(post_id):
 
 
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
@@ -322,7 +298,7 @@ def update_post(post_id):
 
 
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
-@login_required
+@oauth_provider.require_oauth('openid')
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:

@@ -19,3 +19,4 @@ SQLAlchemy==2.0.4
 typing_extensions==4.5.0
 Werkzeug==2.2.3
 WTForms==3.0.1
+Flask-OAuthlib==0.9.6
